@@ -24,7 +24,7 @@ app.get('/create', (req, res, next) => {
 app.get('/edit/:filename', (req, res, next) => {
     fs.readFile(`./hisaab/${req.params.filename}`,"utf-8", function (err,filedata){
         if (err) {
-            return next(err); // Use next to pass the error to the error handler
+            return next(err); 
         }
         res.render('edit',{ filedata, filename: req.params.filename});
     });
@@ -34,11 +34,20 @@ app.get('/edit/:filename', (req, res, next) => {
 app.get('/hisaab/:filename', (req, res, next) => {
   fs.readFile(`./hisaab/${req.params.filename}`,"utf-8", function (err, filedata){
     if (err) {
-        return next(err); // Use next to pass the error to the error handler
+        return next(err); 
     }
     res.render("hisaab", { filedata, filename: req.params.filename});
     });  
 });
+
+app.get('/delete/:filename', (req, res, next) => {
+     fs.unlink(`./hisaab/${req.params.filename}`, function (err){
+        if (err) {
+            return next(err); 
+        }
+        res.redirect('/');
+     });
+  });
  
 
 app.post('/update/:filename', (req, res, next) => {
