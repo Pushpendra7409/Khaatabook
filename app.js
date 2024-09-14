@@ -21,6 +21,25 @@ app.get('/create', (req, res, next) => {
     res.render('create');
 })
 
+app.get('/edit/:filename', (req, res, next) => {
+    fs.readFile(`./hisaab/${req.params.filename}`,"utf-8", function (err,filedata){
+        if (err) {
+            return next(err); // Use next to pass the error to the error handler
+        }
+        res.render('edit',{ filedata, filename: req.params.filename});
+    });
+    
+})
+
+app.post('/update/:filename', (req, res, next) => {
+    fs.writeFile(`./hisaab/${req.params.filename}`, req.body.content, function (err){
+        if (err) {
+            return next(err); // Use next to pass the error to the error handler
+        }
+        res.redirect('/');
+    });  
+})
+
 app.post('/createhisaab', (req, res, next) => {
     var currentDate = new Date();                 //month is count to 0 for this we use +1
     var date = `${currentDate.getDate()}-${currentDate.getMonth()+1}-${currentDate.getFullYear()}`
@@ -33,6 +52,7 @@ app.post('/createhisaab', (req, res, next) => {
     });
     //console.log(currentDate);
 });
+
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
