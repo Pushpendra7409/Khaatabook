@@ -60,15 +60,13 @@ app.post('/update/:filename', (req, res, next) => {
 })
 
 app.post('/createhisaab', (req, res, next) => {
-    var currentDate = new Date();                 //month is count to 0 for this we use +1
-    var date = `${currentDate.getDate()}-${currentDate.getMonth()+1}-${currentDate.getFullYear()}`
-
-    fs.writeFile(`./hisaab/${date}.txt`, req.body.content, function (err) {
-        if (err) {
-            return next(err); // Use next to pass the error to the error handler
-        }
-        res.redirect('/');
-    });
+        fs.writeFile(`./hisaab/${req.body.title}`,req.body.content, function (err){
+            if (err) {
+                return next(err); // Use next to pass the error to the error handler
+            }
+            res.redirect('/');
+        });
+    
     //console.log(currentDate);
 });
 
