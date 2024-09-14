@@ -22,14 +22,17 @@ app.get('/create', (req, res, next) => {
 })
 
 app.post('/createhisaab', (req, res, next) => {
-    fs.writeFile(`./hisaab/${req.body.title}`,req.body.content, function (err){
+    var currentDate = new Date();                 //month is count to 0 for this we use +1
+    var date = `${currentDate.getDate()}-${currentDate.getMonth()+1}-${currentDate.getFullYear()}`
+
+    fs.writeFile(`./hisaab/${date}.txt`, req.body.content, function (err) {
         if (err) {
             return next(err); // Use next to pass the error to the error handler
         }
         res.redirect('/');
     });
-    //res.send(req.body);
-})
+    //console.log(currentDate);
+});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
