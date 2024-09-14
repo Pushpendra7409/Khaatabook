@@ -31,6 +31,16 @@ app.get('/edit/:filename', (req, res, next) => {
     
 })
 
+app.get('/hisaab/:filename', (req, res, next) => {
+  fs.readFile(`./hisaab/${req.params.filename}`,"utf-8", function (err, filedata){
+    if (err) {
+        return next(err); // Use next to pass the error to the error handler
+    }
+    res.render("hisaab", { filedata, filename: req.params.filename});
+    });  
+});
+ 
+
 app.post('/update/:filename', (req, res, next) => {
     fs.writeFile(`./hisaab/${req.params.filename}`, req.body.content, function (err){
         if (err) {
